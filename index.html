@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <!-- BEGIN: Firebase code -->
+  
+<script src="https://www.gstatic.com/firebasejs/5.0.3/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCWSglBzfVfUbkIH4ero3WuxaZwMDYbS8U",
+    authDomain: "mi-proyecto-67208.firebaseapp.com",
+    databaseURL: "https://mi-proyecto-67208.firebaseio.com",
+    projectId: "mi-proyecto-67208",
+    storageBucket: "mi-proyecto-67208.appspot.com",
+    messagingSenderId: "824582915701"
+  };
+  firebase.initializeApp(config);
+</script>
+  <!-- END: Firebase code -->
+</head>
+
+<body>
+  <div class="container" id="access">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-login">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-6">
+                <a href="#" class="active" id="login-form-link">Acceso</a>
+              </div>
+              <div class="col-xs-6">
+                <a href="#" id="register-form-link">Registro</a>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <form id="login-form" action="#" method="post" role="form" style="display: block;">
+                  <div class="form-group">
+                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Correo electrónico" value="">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Contraseña">
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-6 col-sm-offset-3">
+                        <input type="button" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Acceder"
+                          onclick="login()">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="text-center">
+                          <a href="#" tabindex="5" class="forgot-password" onclick="recoverPass()">¿Olvidaste tu contraseña?</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <form id="register-form" action="#" method="post" role="form" style="display: none;">
+                  <div class="form-group">
+                    <input type="email" name="email" id="email-new" tabindex="1" class="form-control" placeholder="Correo electrónico" value="">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" id="password-new" tabindex="2" class="form-control" placeholder="Contraseña">
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-6 col-sm-offset-3">
+                        <input type="button" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Registrar"
+                          onclick="createUser()">
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="text-center">
+                  <div class="fbLogo"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="logged">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-login">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-12">
+                <h2>Bienvenido</h2>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="text-center">
+                  <span class="saludo"></span>
+                  <br />
+                  <br />
+                  <input type="button" id="logout" class="form-control btn btn-warning" value="Salir" onclick="logout()">
+                  <br />
+                  <br />
+                  <br />
+                  <hr>
+                </div>
+              </div>
+            </div>
+            <div class="row players-section">
+              <form>
+                <div class="form-group">
+                  <label for="name">Nombre completo</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input type="text" class="form-control" id="name" placeholder="Escribe tu nombre...">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="mail">Correo electrónico</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">@</span>
+                    <input type="text" class="form-control" id="mail" placeholder="Escribe tu correo...">
+                  </div>
+                </div>
+                <div class="form-group form-inline ">
+                  <div class="form-group">
+                    <label for="number">Número</label>
+                    <input type="number" class="form-control input-xs" id="number">
+                  </div>
+                  <div class="form-group spacer-sm">
+                    <label for="position">Posición</label>
+                    <select class="form-control" id="position">
+                                <option>Pasador</option>
+                                <option>Corredor</option>
+                                <option>Receptor</option>
+                                <option>Tacle</option>
+                                <option>Centro</option>
+                                <option>Ala</option>
+                                <option>Guardia Nariz</option>
+                                <option>Apoyador</option>
+                                <option>Profundo</option>
+                                <option>Esquinero</option>
+                            </select>
+                  </div>
+                </div>
+                <div class="form-group text-center">
+                  <div id="btnSend" type="button" class="btn btn-primary btn-block">Enviar</div>
+                </div>
+              </form>
+            </div>
+            <div class="row players-section">
+              <table id="playersTable" class="table table-hover table-bordered table-striped">
+                <thead>
+                  <tr class="info">
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Número</th>
+                    <th>Posición</th>
+                    <th colspan="2"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Ventanas modales -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header alert-danger">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Error</h4>
+                </div>
+                <div class="modal-body text-center">
+                  ¡Ya existe un jugador con es número!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  
+
+  <script src="app.js"></script>
+</body>
+
+</html>
